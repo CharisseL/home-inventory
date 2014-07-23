@@ -65,5 +65,28 @@ describe('Item', function(){
       });
     });
   });
+
+  describe('#value', function(){
+    it('should return cost * count', function(){
+      var couch = new Item('couch', 'living', '10/02/1988', '2', '1100');
+      var val = couch.value();
+      expect(val).to.equal(2200);
+    });
+  });
+
+  describe('.value', function(done){
+    it('should return cost of all bedroom items', function(done){
+      var bed = new Item('bed', 'bedroom', '10/02/1988', '2', '1100');
+      var tv = new Item('tv', 'bedroom', '10/22/2010', '2', '800');
+        bed.save(function(){
+          tv.save(function(){
+            Item.value({room: 'bedroom'}, function(value){
+              expect(value).to.equal(3800);
+              done();
+            });
+          });
+        });
+    });
+  });
 });
 

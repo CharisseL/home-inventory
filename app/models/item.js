@@ -17,11 +17,24 @@ Item.prototype.save = function(cb){
   });
 };
 
+Item.prototype.value = function(){
+  return this.cost * this.count;
+};
+
 Item.find = function(query, cb){
-  
-  cItem.find(query).toArray(function(err, items){  //database is calling 
+    cItem.find(query).toArray(function(err, items){  //database is calling 
     console.log(items);
     cb(items);                                //the function
+  });
+};
+
+Item.value = function(query, cb){
+  Item.find(query, function(items){
+    var val = 0;
+    for(var i = 0; i < items.length; i++){
+      val += (items[i].count * items[i].cost);
+    }
+    cb(val);
   });
 };
 
