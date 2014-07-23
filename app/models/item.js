@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 //var request = require('request');
 var cItem = global.mongodb.collection('items');
 
@@ -30,11 +31,13 @@ Item.find = function(query, cb){
 
 Item.value = function(query, cb){
   Item.find(query, function(items){
-    var val = 0;
+    var sum = 0;
     for(var i = 0; i < items.length; i++){
-      val += (items[i].count * items[i].cost);
+      var item = items[i];
+      item = _.create(Item.prototype, item);
+      sum += item.value();
     }
-    cb(val);
+    cb(sum);
   });
 };
 
