@@ -13,9 +13,15 @@ function Item(name, room, acquired, count, cost){
 
 Item.prototype.save = function(cb){
   cItem.save(this, function(err, obj){
-     console.log(err);
-     console.log(obj);
      cb();
+  });
+};
+
+Item.find = function(query, cb){
+  
+  cItem.find(query).toArray(function(err, items){  //database is calling 
+    console.log(items);
+    cb(items);                                //the function
   });
 };
 
